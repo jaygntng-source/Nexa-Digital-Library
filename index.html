@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXA DIGITAL LIBRARY</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="loader">
+            <div class="loader-book">
+                <div class="loader-page"></div>
+                <div class="loader-page"></div>
+                <div class="loader-page"></div>
+            </div>
+            <p>Memuat Perpustakaan...</p>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar glass" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-book-open"></i>
+                <span>NEXA</span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="active" data-page="home"><i class="fas fa-home"></i> Home</a>
+                <a href="#" data-page="library"><i class="fas fa-book"></i> Library</a>
+                <a href="#" data-page="categories"><i class="fas fa-tags"></i> Categories</a>
+                <a href="#" data-page="favorites"><i class="fas fa-heart"></i> Favorites</a>
+                <a href="#" data-page="profile"><i class="fas fa-user"></i> Profile</a>
+                <a href="#" data-page="admin"><i class="fas fa-crown"></i> Admin</a>
+            </div>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-btn"><i class="fas fa-moon"></i></button>
+                <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- HOME PAGE -->
+        <section id="page-home" class="page active">
+            <!-- Hero -->
+            <div class="hero glass">
+                <div class="hero-content">
+                    <div class="hero-badge"><i class="fas fa-sparkles"></i> Premium Digital Library</div>
+                    <h1>Selamat Datang di <span class="gradient-text">NEXA DIGITAL LIBRARY</span></h1>
+                    <p>Temukan ribuan buku berkualitas dari berbagai genre. Baca kapan saja, di mana saja.</p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="navigateTo('library')"><i class="fas fa-book-open"></i> Mulai Membaca</button>
+                        <button class="btn-secondary" onclick="navigateTo('categories')"><i class="fas fa-compass"></i> Jelajahi</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="floating-books">
+                        <div class="float-book" style="animation-delay:0s"><i class="fas fa-book"></i></div>
+                        <div class="float-book" style="animation-delay:0.5s"><i class="fas fa-book-open"></i></div>
+                        <div class="float-book" style="animation-delay:1s"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="float-book" style="animation-delay:1.5s"><i class="fas fa-brain"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card glass">
+                    <i class="fas fa-book"></i>
+                    <h3 id="totalBooks">0</h3>
+                    <p>Total Buku</p>
+                </div>
+                <div class="stat-card glass">
+                    <i class="fas fa-tags"></i>
+                    <h3 id="totalCategories">0</h3>
+                    <p>Kategori</p>
+                </div>
+                <div class="stat-card glass">
+                    <i class="fas fa-users"></i>
+                    <h3 id="totalReaders">0</h3>
+                    <p>Pembaca Aktif</p>
+                </div>
+                <div class="stat-card glass">
+                    <i class="fas fa-star"></i>
+                    <h3 id="favoriteBooks">0</h3>
+                    <p>Buku Favorit</p>
+                </div>
+            </div>
+
+            <!-- Featured Books -->
+            <div class="section-header">
+                <h2><i class="fas fa-fire"></i> Buku Populer</h2>
+                <button class="btn-text" onclick="navigateTo('library')">Lihat Semua →</button>
+            </div>
+            <div class="books-grid" id="featuredBooks"></div>
+        </section>
+
+        <!-- LIBRARY PAGE -->
+        <section id="page-library" class="page">
+            <div class="library-header glass">
+                <h2><i class="fas fa-book"></i> Katalog Buku</h2>
+                <div class="library-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Cari judul, penulis..." oninput="filterBooks()">
+                    </div>
+                    <select id="categoryFilter" onchange="filterBooks()">
+                        <option value="all">Semua Kategori</option>
+                    </select>
+                    <select id="sortFilter" onchange="filterBooks()">
+                        <option value="newest">Terbaru</option>
+                        <option value="popular">Terpopuler</option>
+                        <option value="rating">Rating Tertinggi</option>
+                    </select>
+                </div>
+            </div>
+            <div class="books-grid" id="allBooks"></div>
+        </section>
+
+        <!-- CATEGORIES PAGE -->
+        <section id="page-categories" class="page">
+            <h2><i class="fas fa-tags"></i> Kategori Buku</h2>
+            <div class="categories-grid" id="categoriesGrid"></div>
+        </section>
+
+        <!-- FAVORITES PAGE -->
+        <section id="page-favorites" class="page">
+            <h2><i class="fas fa-heart"></i> Buku Favorit</h2>
+            <div class="books-grid" id="favoritesGrid"></div>
+        </section>
+
+        <!-- PROFILE PAGE -->
+        <section id="page-profile" class="page">
+            <div class="profile-container glass">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h2 id="profileName">Pembaca</h2>
+                    <div class="profile-badges" id="profileBadges"></div>
+                </div>
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <span>Buku Dibaca</span>
+                        <strong id="booksRead">0</strong>
+                    </div>
+                    <div class="profile-stat">
+                        <span>XP</span>
+                        <strong id="xpPoints">0</strong>
+                    </div>
+                    <div class="profile-stat">
+                        <span>Level</span>
+                        <strong id="levelUser">1</strong>
+                    </div>
+                </div>
+                <div class="profile-reading">
+                    <h3>📖 Sedang Dibaca</h3>
+                    <div id="currentlyReading"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMIN PAGE -->
+        <section id="page-admin" class="page">
+            <div class="admin-container glass">
+                <h2><i class="fas fa-crown"></i> Admin Panel</h2>
+                <button class="btn-primary" onclick="showAddBookForm()"><i class="fas fa-plus"></i> Tambah Buku</button>
+                <div id="adminBooks"></div>
+            </div>
+        </section>
+
+        <!-- DETAIL PAGE (overlay) -->
+        <div id="detailOverlay" class="overlay">
+            <div class="detail-modal glass">
+                <button class="close-btn" onclick="closeDetail()"><i class="fas fa-times"></i></button>
+                <div id="detailContent"></div>
+            </div>
+        </div>
+
+        <!-- READER MODE (overlay) -->
+        <div id="readerOverlay" class="overlay reader-overlay">
+            <div class="reader-modal glass">
+                <div class="reader-header">
+                    <button class="close-btn" onclick="closeReader()"><i class="fas fa-times"></i></button>
+                    <div class="reader-controls">
+                        <button onclick="changeFontSize(-2)"><i class="fas fa-font"></i>-</button>
+                        <button onclick="changeFontSize(2)"><i class="fas fa-font"></i>+</button>
+                        <button onclick="toggleReaderTheme()"><i class="fas fa-moon"></i></button>
+                    </div>
+                </div>
+                <div class="reader-content" id="readerContent">
+                    <h2 id="readerTitle"></h2>
+                    <div id="readerBody" style="font-size:18px;line-height:1.8;"></div>
+                    <div class="reader-progress">
+                        <span>Progress: <span id="readerProgress">0</span>%</span>
+                        <div class="progress-bar"><div class="progress-fill" id="readerProgressFill"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Quiz Overlay -->
+    <div id="quizOverlay" class="overlay">
+        <div class="quiz-modal glass">
+            <h2>📝 Quiz Pembelajaran</h2>
+            <div id="quizContent"></div>
+        </div>
+    </div>
+
+    <!-- Floating Action -->
+    <button class="fab" id="fab" onclick="scrollTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Watermark -->
+    <div class="watermark">Created by Fikri</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
